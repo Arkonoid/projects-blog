@@ -1,6 +1,9 @@
 * {
-    background-color: #999999;
     font-family: sans-serif;
+}
+
+body {
+    background-color: #dedede;
 }
 
 h1 {
