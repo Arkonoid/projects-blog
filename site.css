@@ -1,9 +1,59 @@
 * {
-    background-color: #555555;
-    font-family: sans-serif;
+    font-family: monospace;
+}
+
+body {
+    background-color: #dedede;
 }
 
 h1 {
     display: flex;
     justify-content: center;
+}
+
+.main-header {
+    grid-area: hd;
+
+    text-align: center;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-around;
+
+    grid-area: nv;
+
+}
+
+.main-nav a{
+    font-size: 18px;
+
+    text-decoration: none;
+}
+
+.main-content {
+    text-align: center;
+
+    grid-area: ct;
+
+    
+}
+
+.main-content p{
+    font-size: 18px;
+}
+
+.main-footer {
+    grid-area: ft;
+}
+
+.grid {
+    display: grid;
+    gap: 20px;
+    grid-template-areas: 
+        "hd"
+        "nv"
+        "ct"
+        "ft"
+    ;
 }
