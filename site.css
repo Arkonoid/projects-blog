@@ -11,23 +11,21 @@ h1 {
     justify-content: center;
 }
 
-.main-header {
+header {
     grid-area: hd;
 
     text-align: center;
 }
 
-.main-nav {
+nav{
     display: flex;
     justify-content: space-around;
-
-    grid-area: nv;
-
-}
-
-.main-nav a{
     font-size: 18px;
 
+    grid-area: nv;
+}
+
+nav a{
     text-decoration: none;
 }
 
@@ -56,4 +54,48 @@ h1 {
         "ct"
         "ft"
     ;
+}
+
+/*Javascript Game*/
+.game-box{
+    display: flex;
+    justify-content: center;
+
+    width: 100vw;
+    height: 50vh;
+}
+
+.game-start{
+    width: 33vw;
+    height: 10vh;
+
+    font-size: 1.3rem;
+
+}
+
+
+/*Loading animation*/
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+}
+
+.box{
+    width: 10px;
+    height: 10px;
+    background-color: darkblue;
+}
+
+@keyframes loading {
+    0% {}
+    25% {}
+    50% {}
+    75% {}
+    100% {}
 }
