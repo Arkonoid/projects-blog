@@ -80,6 +80,7 @@ nav a{
 
 #choose-class button{
     margin: 2px;
+    text-align: center;
 }
 
 #stats{
@@ -89,6 +90,16 @@ nav a{
 
 #mobile-button{
     display: none;
+}
+
+#adventure{
+    display: none;
+}
+
+.center-button{
+    display: flex;
+    justify-content: center;
+    width: 100vw;
 }
 /*Loading animation*/
 
