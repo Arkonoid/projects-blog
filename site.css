@@ -65,7 +65,7 @@ nav a{
     height: 50vh;
 }
 
-.game-start{
+#game-start{
     width: 33vw;
     height: 10vh;
 
@@ -73,7 +73,23 @@ nav a{
 
 }
 
+#choose-class{
+    display: none;
+    text-align: center;
+}
 
+#choose-class button{
+    margin: 2px;
+}
+
+#stats{
+    display: none;
+    text-align: center;
+}
+
+#mobile-button{
+    display: none;
+}
 /*Loading animation*/
 
 .center{

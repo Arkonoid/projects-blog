@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects Blog</title>
     <link rel="stylesheet" href="site.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -24,7 +25,13 @@
 
     <main class='coding-content'>
         <div class='game-box'>
-            <button type="button" class='game-start'>Play a Game!</button>
+            <button type="button" id='game-start'>Play a Game!</button>
+
+            <div id='choose-class'>
+                <p id='class-choice'></p>
+                <p id='stats'></p>
+                <button type="button" id='mobile-button'>SELECT</button>
+            </div>
         </div>
     </main>
 
@@ -36,5 +43,6 @@
     </footer>
 </div>
 <script src='script.js'></script>
+
 </body>
 </html>
