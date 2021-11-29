@@ -1,3 +1,8 @@
+//Variables
+let class_choice;
+let enemyDefend = false;
+let bigAttack = false;
+
 //Random Number Generator
 function random(min,max) {
     let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -8,8 +13,6 @@ function random(min,max) {
 let warrior = {name: 'Warrior', hp: 100, att: 15, arm: 12, spd: 20, magic: 3};
 let mage = {name: 'Mage', hp: 50, att: 5, arm: 5, spd: 35, magic: 25};
 let rogue = {name: 'Rogue', hp: 30, att: 10, arm: 7, spd: 45, magic: 10}
-
-let class_choice;
 
 //Enemies
 let enemy1 = {name: 'Bandit', ORIGINAL_HP: 35, hp: 35, att: 10, arm: 5, spd: 5, magic: 1};
@@ -280,6 +283,8 @@ function battleLoop(enemy) {
 
     showStats(enemy);
 
+    //alert("Enemy HP is currently " + enemy.hp);
+
     $('#battle-text').html("The " + enemy.name + " notices you...");
 
     $('#option-fight').click( ()=>{
@@ -288,10 +293,23 @@ function battleLoop(enemy) {
 
         showStats(enemy);
 
+        //alert("Enemy HP is currently " + enemy.hp);
+
         if (enemy.hp <= 0) {
             winBattle(enemy);
         }
 
+        enemyTurn(enemy);
+
+    });
+
+    $('#option-block').click( ()=>{
+        $('#battle-text').html("You increase your defenses for a turn!");
+        class_choice.arm *= 2;
+
+        showStats(enemy);
+
+        enemyTurn(enemy);
     });
 
     $('#option-magic').click( ()=>{
@@ -322,9 +340,13 @@ function battleLoop(enemy) {
 
         showStats(enemy);
 
+        //alert("Enemy HP is currently " + enemy.hp);
+
         if (enemy.hp <= 0) {
             winBattle();
         }
+
+        enemyTurn(enemy);
 
     });
 
@@ -332,7 +354,7 @@ function battleLoop(enemy) {
         let runChance = (class_choice.spd / 2) / 100;
         let runSuccess = random(0,100) / 100;
 
-        alert("RunChance is " + runChance + " and runSuccess is " + runSuccess);
+        //DEBUG alert("RunChance is " + runChance + " and runSuccess is " + runSuccess);
 
         if (runChance >= runSuccess) {
             $('#battle-text').html("You did it?");
@@ -340,6 +362,8 @@ function battleLoop(enemy) {
         }
         else{
             $('#battle-text').html("You failed to run!");
+
+            enemyTurn(enemy);
         }
     });
 
@@ -372,6 +396,47 @@ function showStats(enemy) {
     );
 }
 
+//Enemy Turn
+function enemyTurn(enemy) {
+    if (enemyDefend) {
+        enemy.arm /= 2;
+        enemyDefend = false;
+    }
+    
+    if (bigAttack) {
+        $('#battle-text').html("The " + enemy.name + " lands a collossal blow for " + (enemy.att * 2 - class_choice.arm) + " damage!");
+        class_choice.hp -= (enemy.att * 2 - class_choice.arm);
+        bigAttack = false;
+    }
+    else {
+        enemyAction = random(1,3);
+
+        switch(enemyAction){
+
+            case 1:
+                $('#battle-text').html("The " + enemy.name + "attacks for " + (enemy.att - class_choice.arm) + " damage!");
+
+                class_choice.hp -= (enemy.att - class_choice.arm);
+                break;
+            case 2:
+                $('#battle-text').html("The " + enemy.name + " raises its guard!");
+                break;
+            case 3:
+                $('#battle-text').html("The " + enemy.name + " is readying a huge blow!");
+
+                bigAttack = true;
+                break;
+            default: alert("Something has gone horribly wrong...");
+        }
+    }
+
+    if(enemyDefend) {
+        enemy.arm *= 2;
+    }
+
+    showStats(enemy);
+}
+
 //Win Function
 function winBattle(enemy) {
     $('#battle-text').hide();
@@ -382,6 +447,8 @@ function winBattle(enemy) {
     $('#reset-button').show();
 
     enemy.hp = enemy.ORIGINAL_HP;
+
+    //alert("Enemy HP is currently " + enemy.hp);
 
     $('#adventure-text').html("You made it out alive! You Win!");
 
