@@ -99,6 +99,27 @@ nav a{
 #adventure-text{
     display: none;
 }
+
+#fight-button{
+    display: none;
+}
+
+#battle-text{
+    display: none;
+}
+
+#player-stats{
+    display: none;
+}
+
+#enemy-stats{
+    display: none;
+}
+
+#battle-choices{
+    display: none;
+}
+
 .center-button{
     display: flex;
     justify-content: center;

@@ -12,12 +12,12 @@ let rogue = {name: 'Rogue', hp: 30, att: 10, arm: 7, spd: 45, magic: 10}
 let class_choice;
 
 //Enemies
-let enemy1 = {name: 'Bandit', hp: 35, att: 10, arm: 5, spd: 5, magic: 1};
-let enemy2 = {name: 'Monkey', hp: 25, att: 20, arm: 0, spd: 50, magic: 0};
-let enemy3 = {name: 'Bat', hp: 15, att: 10, arm: 0, spd: 75, magic: 0};
-let enemy4 = {name: 'Cave Troll', hp: 150, att: 40, arm: 5, spd: 0, magic: 3};
-let enemy5 = {name: 'Seagull', hp: 15, att: 10, arm: 0, spd: 65, magic: 0};
-let enemy6 = {name: 'Giant Crab', hp: 75, att: 10, arm: 15, spd: 0, magic: 0};
+let enemy1 = {name: 'Bandit', ORIGINAL_HP: 35, hp: 35, att: 10, arm: 5, spd: 5, magic: 1};
+let enemy2 = {name: 'Monkey', ORIGINAL_HP: 25, hp: 25, att: 20, arm: 0, spd: 50, magic: 0};
+let enemy3 = {name: 'Bat', ORIGINAL_HP: 15, hp: 15, att: 10, arm: 0, spd: 75, magic: 0};
+let enemy4 = {name: 'Cave Troll', ORIGINAL_HP: 150, hp: 150, att: 40, arm: 5, spd: 0, magic: 3};
+let enemy5 = {name: 'Seagull', ORIGINAL_HP: 15, hp: 15, att: 10, arm: 0, spd: 65, magic: 0};
+let enemy6 = {name: 'Giant Crab', ORIGINAL_HP: 75, hp: 75, att: 10, arm: 15, spd: 0, magic: 0};
 
 //Game Start
 document.getElementById('game-start').addEventListener('click', ()=>{
@@ -158,8 +158,14 @@ switch(rng) {
             }
 
             $('#adventure-text').html("Oh No! You come across a " + enemyChoice.name + "!");
-            battleLoop(enemyChoice);
+            document.getElementById('adventure-choices').style.display = 'none';
+            document.getElementById('fight-button').style.display = 'block';
 
+            $('#fight-button').click( ()=>{
+                document.getElementById('adventure-text').style.display = 'none';
+                document.getElementById('fight-button').style.display = 'none';
+                battleLoop(enemyChoice);
+            });
         });
 
         $('#choice2').click( ()=>{
@@ -192,7 +198,14 @@ switch(rng) {
             }
 
             $('#adventure-text').html("Oh No! You come across a " + enemyChoice.name + "!");
-            battleLoop(enemyChoice);
+            document.getElementById('adventure-choices').style.display = 'none';
+            document.getElementById('fight-button').style.display = 'block';
+
+            $('#fight-button').click( ()=>{
+                document.getElementById('adventure-text').style.display = 'none';
+                document.getElementById('fight-button').style.display = 'none';
+                battleLoop(enemyChoice);
+            });
 
         });
 
@@ -226,7 +239,14 @@ switch(rng) {
             }
 
             $('#adventure-text').html("Oh No! You come across a " + enemyChoice.name + "!");
-            battleLoop(enemyChoice);
+            document.getElementById('adventure-choices').style.display = 'none';
+            document.getElementById('fight-button').style.display = 'block';
+
+            $('#fight-button').click( ()=>{
+                document.getElementById('adventure-text').style.display = 'none';
+                document.getElementById('fight-button').style.display = 'none';
+                battleLoop(enemyChoice);
+            });
 
         });
 
@@ -253,12 +273,137 @@ switch(rng) {
 
 //Battle
 function battleLoop(enemy) {
+    $('#battle-text').show();
+    $('#player-stats').show();
+    $('#enemy-stats').show();
+    $('#battle-choices').show();
+
+    showStats(enemy);
+
+    $('#battle-text').html("The " + enemy.name + " notices you...");
+
+    $('#option-fight').click( ()=>{
+        $('#battle-text').html("You hit the " + enemy.name + " for " + (class_choice.att - enemy.arm) + " damage!");
+        enemy.hp -= (class_choice.att - enemy.arm);
+
+        showStats(enemy);
+
+        if (enemy.hp <= 0) {
+            winBattle(enemy);
+        }
+
+    });
+
+    $('#option-magic').click( ()=>{
+        let magicEffect = random(1,6);
+
+        switch(magicEffect){
+            case 1: class_choice.hp += class_choice.magic;
+                $('#battle-text').html("You feel strange forces increase your HP!");
+                break;
+            case 2: class_choice.att += class_choice.magic;
+                $('#battle-text').html("You feel strange forces increase your Attack!");
+                break;
+            case 3: class_choice.arm += class_choice.magic;
+                $('#battle-text').html("You feel strange forces increase your Armor!");
+                break;
+            case 4: class_choice.spd += class_choice.magic;
+                $('#battle-text').html("You feel strange forces increase your Speed");
+                break;
+            case 5: class_choice.magic += class_choice.magic;
+                $('#battle-text').html("You feel strange forces increase your Magic!");
+                break;
+            case 6: enemy.hp -= class_choice.magic;
+                $('#battle-text').html("You feel strange forces attack the enemy for " + class_choice.magic + " damage!");
+                break;
+            default:
+                alert("Something wen't terribly wrong.");
+        }
+
+        showStats(enemy);
+
+        if (enemy.hp <= 0) {
+            winBattle();
+        }
+
+    });
+
+    $('#option-run').click( ()=>{
+        let runChance = (class_choice.spd / 2) / 100;
+        let runSuccess = random(0,100) / 100;
+
+        alert("RunChance is " + runChance + " and runSuccess is " + runSuccess);
+
+        if (runChance >= runSuccess) {
+            $('#battle-text').html("You did it?");
+            winBattle(enemy);
+        }
+        else{
+            $('#battle-text').html("You failed to run!");
+        }
+    });
+
+
+
+    
 
 }
+
+//Show Stats
+function showStats(enemy) {
+    $('#player-stats').html(
+        "PLAYER<br>" +
+        "----------<br>" +
+        "HP: " + class_choice.hp + "<br>" +
+        "Attack: " + class_choice.att + "<br>" +
+        "Armor: " + class_choice.arm + "<br>" +
+        "Speed: " + class_choice.spd + "<br>" +
+        "Magic: " + class_choice.magic
+    );
+
+    $('#enemy-stats').html(
+        enemy.name + "<br>" +
+        "----------<br>" +
+        "HP: " + enemy.hp + "<br>" +
+        "Attack: " + enemy.att + "<br>" +
+        "Armor: " + enemy.arm + "<br>" +
+        "Speed: " + enemy.spd + "<br>" +
+        "Magic: " + enemy.magic
+    );
+}
+
+//Win Function
+function winBattle(enemy) {
+    $('#battle-text').hide();
+    $('#player-stats').hide();
+    $('#enemy-stats').hide();
+    $('#battle-choices').hide();
+    $('#adventure-text').show();
+    $('#reset-button').show();
+
+    enemy.hp = enemy.ORIGINAL_HP;
+
+    $('#adventure-text').html("You made it out alive! You Win!");
+
+    $('#reset-button').click( ()=>{
+        document.getElementById('choose-class').style.display = 'block';
+        $('#choose-class').show();
+        $('#reset-button').hide();
+        $('#adventure-text').hide();
+        $('#adventure-text').html('');
+    });
+}
+
 //Debug
 $('#random-button').click( ()=>{
-    alert("The number is " + random(0,9))
+    alert("The number is " + random(0,9));
 });
 $('#class-button').click( ()=>{
-    alert("The player's class is " + class_choice.name)
+    alert("The player's class is " + class_choice.name);
+});
+$('#run-button').click( ()=>{
+    alert("The player's chance to run is " + class_choice.spd / 2 + "%");
+});
+$('#runTest-button').click( ()=>{
+    alert("The run roll is " + (random(0,100) / 100))
 });
