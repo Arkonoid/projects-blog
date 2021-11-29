@@ -92,14 +92,21 @@ nav a{
     display: none;
 }
 
-#adventure{
+#adventure-choices{
     display: none;
 }
 
+#adventure-text{
+    display: none;
+}
 .center-button{
     display: flex;
     justify-content: center;
     width: 100vw;
+}
+
+#reset-button{
+    display: none;
 }
 /*Loading animation*/
 

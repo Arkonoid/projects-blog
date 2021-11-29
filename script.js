@@ -5,7 +5,6 @@ function random(min,max) {
 }
 
 //Classes
-
 let warrior = {name: 'Warrior', hp: 100, att: 15, arm: 12, spd: 20, magic: 3};
 let mage = {name: 'Mage', hp: 50, att: 5, arm: 5, spd: 35, magic: 25};
 let rogue = {name: 'Rogue', hp: 30, att: 10, arm: 7, spd: 45, magic: 10}
@@ -20,8 +19,7 @@ let enemy4 = {name: 'Cave Troll', hp: 150, att: 40, arm: 5, spd: 0, magic: 3};
 let enemy5 = {name: 'Seagull', hp: 15, att: 10, arm: 0, spd: 65, magic: 0};
 let enemy6 = {name: 'Giant Crab', hp: 75, att: 10, arm: 15, spd: 0, magic: 0};
 
-//Game Logic
-
+//Game Start
 document.getElementById('game-start').addEventListener('click', ()=>{
     document.getElementById('game-start').style.display = 'none';
     document.getElementById('choose-class').style.display = 'block';
@@ -77,7 +75,7 @@ document.getElementById('game-start').addEventListener('click', ()=>{
 
         $('#mobile-button').click( ()=> {
             document.getElementById('choose-class').style.display = 'none';
-            document.getElementById('adventure').style.display = 'block';
+            adventureLoop();
         });
 
     }
@@ -92,6 +90,11 @@ document.getElementById('game-start').addEventListener('click', ()=>{
         "Armor: " + class_choice.arm + "<br>" +
         "Speed: " + class_choice.spd + "<br>" +
         "Magic: " + class_choice.magic;
+
+        $('#choice-warrior').click( ()=>{
+            document.getElementById('choose-class').style.display = 'none';
+            adventureLoop();
+        });
     });
 
     $('#choice-mage').mouseover( ()=>{
@@ -104,6 +107,11 @@ document.getElementById('game-start').addEventListener('click', ()=>{
         "Armor: " + class_choice.arm + "<br>" +
         "Speed: " + class_choice.spd + "<br>" +
         "Magic: " + class_choice.magic;
+
+        $('#choice-mage').click( ()=>{
+            document.getElementById('choose-class').style.display = 'none';
+            adventureLoop();
+        });
     });
 
     $('#choice-rogue').mouseover( ()=>{
@@ -116,15 +124,141 @@ document.getElementById('game-start').addEventListener('click', ()=>{
         "Armor: " + class_choice.arm + "<br>" +
         "Speed: " + class_choice.spd + "<br>" +
         "Magic: " + class_choice.magic;
+
+        $('#choice-rogue').click( ()=>{
+            document.getElementById('choose-class').style.display = 'none';
+            adventureLoop();
+        });
     });
     }
 });
 
-//Adventure
+//Adventure Loop
+function adventureLoop() {
 
+document.getElementById('adventure-text').style.display = 'block';
+document.getElementById('adventure-choices').style.display = 'block';
+
+let rng = random(1,3);
+let enemyChoice;
+
+switch(rng) {
+    case 1:
+        $('#adventure-text').html("You find yourself wandering down a forest path...");
+        $('#choice1').html("Head further in");
+        $('#choice2').html("Turn back");
+    
+        $('#choice1').click( ()=>{
+            rng = random(1,2);
+            if (rng === 1) {
+                enemyChoice = enemy1;
+            }
+            else {
+                enemyChoice = enemy2;
+            }
+
+            $('#adventure-text').html("Oh No! You come across a " + enemyChoice.name + "!");
+            battleLoop(enemyChoice);
+
+        });
+
+        $('#choice2').click( ()=>{
+            $('#adventure-text').html("You made it out alive! You Win!");
+
+            document.getElementById('reset-button').style.display = 'block';
+            document.getElementById('adventure-choices').style.display = 'none';
+
+            $('#reset-button').click( ()=>{
+                document.getElementById('choose-class').style.display = 'block';
+                document.getElementById('reset-button').style.display = 'none';
+                $('#adventure-text').html('');
+            });
+
+        });
+
+        break;
+    case 2:
+        $('#adventure-text').html("You wake up deep in a cave...");
+        $('#choice1').html("Head further in");
+        $('#choice2').html("Leave the cave");
+
+        $('#choice1').click( ()=>{
+            rng = random(3,4);
+            if (rng === 3) {
+                enemyChoice = enemy3;
+            }
+            else {
+                enemyChoice = enemy4;
+            }
+
+            $('#adventure-text').html("Oh No! You come across a " + enemyChoice.name + "!");
+            battleLoop(enemyChoice);
+
+        });
+
+        $('#choice2').click( ()=>{
+            $('#adventure-text').html("You made it out alive! You Win!");
+
+            document.getElementById('reset-button').style.display = 'block';
+            document.getElementById('adventure-choices').style.display = 'none';
+
+            $('#reset-button').click( ()=>{
+                document.getElementById('choose-class').style.display = 'block';
+                document.getElementById('reset-button').style.display = 'none';
+                $('#adventure-text').html('');
+            });
+
+        });
+
+        break;
+    case 3:
+        $('#adventure-text').html("You walk out onto an island beach...");
+        $('#choice1').html("Walk along the beach");
+        $('#choice2').html("Go back into the jungle");
+
+        $('#choice1').click( ()=>{
+            rng = random(5,6);
+            if (rng === 5) {
+                enemyChoice = enemy5;
+            }
+            else {
+                enemyChoice = enemy6;
+            }
+
+            $('#adventure-text').html("Oh No! You come across a " + enemyChoice.name + "!");
+            battleLoop(enemyChoice);
+
+        });
+
+        $('#choice2').click( ()=>{
+            $('#adventure-text').html("You made it out alive! You Win!");
+
+            document.getElementById('reset-button').style.display = 'block';
+            document.getElementById('adventure-choices').style.display = 'none';
+
+            $('#reset-button').click( ()=>{
+                document.getElementById('choose-class').style.display = 'block';
+                document.getElementById('reset-button').style.display = 'none';
+                $('#adventure-text').html('');
+            });
+
+        });
+
+        break;
+    default:
+        alert("Something has gone horribly wrong...")
+}
+
+} //End of Adventure Loop
 
 //Battle
+function battleLoop(enemy) {
 
-$('#random-button').click ( ()=>{
-    document.getElementById('random-number').innerHTML = random(0,9);
+}
+//Debug
+$('#random-button').click( ()=>{
+    alert("The number is " + random(0,9))
+});
+$('#class-button').click( ()=>{
+    alert("The player's class is " + class_choice.name)
 });
