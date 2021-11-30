@@ -459,6 +459,10 @@ function enemyTurn(enemy) {
         enemy.arm *= 2;
     }
 
+    if (player.hp <= 0) {
+        loseBattle(enemy);
+    }
+
     showStats(enemy);
 }
 
