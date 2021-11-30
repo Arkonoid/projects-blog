@@ -1,6 +1,7 @@
 //Variables
 let class_choice;
 let enemyDefend = false;
+let playerDefend = false;
 let bigAttack = false;
 
 //Random Number Generator
@@ -13,6 +14,7 @@ function random(min,max) {
 let warrior = {name: 'Warrior', hp: 100, att: 15, arm: 12, spd: 20, magic: 3};
 let mage = {name: 'Mage', hp: 50, att: 5, arm: 5, spd: 35, magic: 25};
 let rogue = {name: 'Rogue', hp: 30, att: 10, arm: 7, spd: 45, magic: 10}
+let player;
 
 //Enemies
 let enemy1 = {name: 'Bandit', ORIGINAL_HP: 35, hp: 35, att: 10, arm: 5, spd: 5, magic: 1};
@@ -78,6 +80,7 @@ document.getElementById('game-start').addEventListener('click', ()=>{
 
         $('#mobile-button').click( ()=> {
             document.getElementById('choose-class').style.display = 'none';
+            player = class_choice;
             adventureLoop();
         });
 
@@ -96,6 +99,7 @@ document.getElementById('game-start').addEventListener('click', ()=>{
 
         $('#choice-warrior').click( ()=>{
             document.getElementById('choose-class').style.display = 'none';
+            player = class_choice;
             adventureLoop();
         });
     });
@@ -113,6 +117,7 @@ document.getElementById('game-start').addEventListener('click', ()=>{
 
         $('#choice-mage').click( ()=>{
             document.getElementById('choose-class').style.display = 'none';
+            player = class_choice;
             adventureLoop();
         });
     });
@@ -130,6 +135,7 @@ document.getElementById('game-start').addEventListener('click', ()=>{
 
         $('#choice-rogue').click( ()=>{
             document.getElementById('choose-class').style.display = 'none';
+            player = class_choice;
             adventureLoop();
         });
     });
@@ -274,7 +280,7 @@ switch(rng) {
 
 } //End of Adventure Loop
 
-//Battle
+//Battle Loop
 function battleLoop(enemy) {
     $('#battle-text').show();
     $('#player-stats').show();
@@ -288,8 +294,8 @@ function battleLoop(enemy) {
     $('#battle-text').html("The " + enemy.name + " notices you...");
 
     $('#option-fight').click( ()=>{
-        $('#battle-text').html("You hit the " + enemy.name + " for " + (class_choice.att - enemy.arm) + " damage!");
-        enemy.hp -= (class_choice.att - enemy.arm);
+        $('#battle-text').html("You hit the " + enemy.name + " for " + (player.att - enemy.arm) + " damage!");
+        enemy.hp -= (player.att - enemy.arm);
 
         showStats(enemy);
 
@@ -305,37 +311,51 @@ function battleLoop(enemy) {
 
     $('#option-block').click( ()=>{
         $('#battle-text').html("You increase your defenses for a turn!");
-        class_choice.arm *= 2;
+
+        playerDefend = true;
+        player.arm *= 2;
 
         showStats(enemy);
 
+        //alert("Enemy HP is currently " + enemy.hp);
+
+        if (enemy.hp <= 0) {
+            winBattle(enemy);
+        }
+
         enemyTurn(enemy);
+
+        if (playerDefend) {
+            player.arm /= 2;
+            playerDefend = false;
+        }
+        
     });
 
     $('#option-magic').click( ()=>{
         let magicEffect = random(1,6);
 
         switch(magicEffect){
-            case 1: class_choice.hp += class_choice.magic;
+            case 1: player.hp += player.magic;
                 $('#battle-text').html("You feel strange forces increase your HP!");
                 break;
-            case 2: class_choice.att += class_choice.magic;
+            case 2: player.att += player.magic;
                 $('#battle-text').html("You feel strange forces increase your Attack!");
                 break;
-            case 3: class_choice.arm += class_choice.magic;
+            case 3: player.arm += player.magic;
                 $('#battle-text').html("You feel strange forces increase your Armor!");
                 break;
-            case 4: class_choice.spd += class_choice.magic;
+            case 4: player.spd += player.magic;
                 $('#battle-text').html("You feel strange forces increase your Speed");
                 break;
-            case 5: class_choice.magic += class_choice.magic;
+            case 5: player.magic += player.magic;
                 $('#battle-text').html("You feel strange forces increase your Magic!");
                 break;
-            case 6: enemy.hp -= class_choice.magic;
-                $('#battle-text').html("You feel strange forces attack the enemy for " + class_choice.magic + " damage!");
+            case 6: enemy.hp -= player.magic;
+                $('#battle-text').html("You feel strange forces attack the enemy for " + player.magic + " damage!");
                 break;
             default:
-                alert("Something wen't terribly wrong.");
+                alert("Something went terribly wrong.");
         }
 
         showStats(enemy);
@@ -343,15 +363,16 @@ function battleLoop(enemy) {
         //alert("Enemy HP is currently " + enemy.hp);
 
         if (enemy.hp <= 0) {
-            winBattle();
+            winBattle(enemy);
         }
 
         enemyTurn(enemy);
+        
 
     });
 
     $('#option-run').click( ()=>{
-        let runChance = (class_choice.spd / 2) / 100;
+        let runChance = (player.spd / 2) / 100;
         let runSuccess = random(0,100) / 100;
 
         //DEBUG alert("RunChance is " + runChance + " and runSuccess is " + runSuccess);
@@ -362,7 +383,7 @@ function battleLoop(enemy) {
         }
         else{
             $('#battle-text').html("You failed to run!");
-
+            
             enemyTurn(enemy);
         }
     });
@@ -371,18 +392,18 @@ function battleLoop(enemy) {
 
     
 
-}
+} //End of Battle Loop
 
 //Show Stats
 function showStats(enemy) {
     $('#player-stats').html(
         "PLAYER<br>" +
         "----------<br>" +
-        "HP: " + class_choice.hp + "<br>" +
-        "Attack: " + class_choice.att + "<br>" +
-        "Armor: " + class_choice.arm + "<br>" +
-        "Speed: " + class_choice.spd + "<br>" +
-        "Magic: " + class_choice.magic
+        "HP: " + player.hp + "<br>" +
+        "Attack: " + player.att + "<br>" +
+        "Armor: " + player.arm + "<br>" +
+        "Speed: " + player.spd + "<br>" +
+        "Magic: " + player.magic
     );
 
     $('#enemy-stats').html(
@@ -398,14 +419,15 @@ function showStats(enemy) {
 
 //Enemy Turn
 function enemyTurn(enemy) {
+
     if (enemyDefend) {
         enemy.arm /= 2;
         enemyDefend = false;
     }
     
     if (bigAttack) {
-        $('#battle-text').html("The " + enemy.name + " lands a collossal blow for " + (enemy.att * 2 - class_choice.arm) + " damage!");
-        class_choice.hp -= (enemy.att * 2 - class_choice.arm);
+        $('#battle-text').html("The " + enemy.name + " lands a collossal blow for " + (enemy.att * 2 - player.arm) + " damage!");
+        player.hp -= (enemy.att * 2 - player.arm);
         bigAttack = false;
     }
     else {
@@ -414,12 +436,14 @@ function enemyTurn(enemy) {
         switch(enemyAction){
 
             case 1:
-                $('#battle-text').html("The " + enemy.name + "attacks for " + (enemy.att - class_choice.arm) + " damage!");
+                $('#battle-text').html("The " + enemy.name + "attacks for " + (enemy.att - player.arm) + " damage!");
 
-                class_choice.hp -= (enemy.att - class_choice.arm);
+                player.hp -= (enemy.att - player.arm);
                 break;
             case 2:
                 $('#battle-text').html("The " + enemy.name + " raises its guard!");
+
+                enemyDefend = true;
                 break;
             case 3:
                 $('#battle-text').html("The " + enemy.name + " is readying a huge blow!");
@@ -450,7 +474,33 @@ function winBattle(enemy) {
 
     //alert("Enemy HP is currently " + enemy.hp);
 
+    player = class_choice;
+
     $('#adventure-text').html("You made it out alive! You Win!");
+
+    $('#reset-button').click( ()=>{
+        document.getElementById('choose-class').style.display = 'block';
+        $('#choose-class').show();
+        $('#reset-button').hide();
+        $('#adventure-text').hide();
+        $('#adventure-text').html('');
+    });
+}
+
+//Lose Function
+function loseBattle(enemy) {
+    $('#battle-text').hide();
+    $('#player-stats').hide();
+    $('#enemy-stats').hide();
+    $('#battle-choices').hide();
+    $('#adventure-text').show();
+    $('#reset-button').show();
+
+    enemy.hp = enemy.ORIGINAL_HP;
+
+    //alert("Enemy HP is currently " + enemy.hp);
+
+    $('#adventure-text').html("You died to the " + enemy.name + "! You Lose!");
 
     $('#reset-button').click( ()=>{
         document.getElementById('choose-class').style.display = 'block';
@@ -466,10 +516,10 @@ $('#random-button').click( ()=>{
     alert("The number is " + random(0,9));
 });
 $('#class-button').click( ()=>{
-    alert("The player's class is " + class_choice.name);
+    alert("The player's class is " + player.name);
 });
 $('#run-button').click( ()=>{
-    alert("The player's chance to run is " + class_choice.spd / 2 + "%");
+    alert("The player's chance to run is " + player.spd / 2 + "%");
 });
 $('#runTest-button').click( ()=>{
     alert("The run roll is " + (random(0,100) / 100))
