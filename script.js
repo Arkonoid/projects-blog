@@ -282,7 +282,8 @@ switch(rng) {
 
 //Battle Loop
 function battleLoop(enemy) {
-    $('#battle-text').show();
+    $('#battle-text-player').show();
+    $('#battle-text-enemy').show();
     $('#player-stats').show();
     $('#enemy-stats').show();
     $('#battle-choices').show();
@@ -291,11 +292,11 @@ function battleLoop(enemy) {
 
     //alert("Enemy HP is currently " + enemy.hp);
 
-    $('#battle-text').html("The " + enemy.name + " notices you...");
+    $('#battle-text-enemy').html("The " + enemy.name + " notices you...");
 
     $('#option-fight').click( ()=>{
-        $('#battle-text').html("You hit the " + enemy.name + " for " + (player.att - enemy.arm) + " damage!");
-        enemy.hp -= (player.att - enemy.arm);
+        $('#battle-text-player').html("You hit the " + enemy.name + " for " + (Math.max(0, player.att - enemy.arm)) + " damage!");
+        enemy.hp -= Math.max(0, (player.att - enemy.arm));
 
         showStats(enemy);
 
@@ -310,7 +311,7 @@ function battleLoop(enemy) {
     });
 
     $('#option-block').click( ()=>{
-        $('#battle-text').html("You increase your defenses for a turn!");
+        $('#battle-text-player').html("You increase your defenses for a turn!");
 
         playerDefend = true;
         player.arm *= 2;
@@ -337,22 +338,22 @@ function battleLoop(enemy) {
 
         switch(magicEffect){
             case 1: player.hp += player.magic;
-                $('#battle-text').html("You feel strange forces increase your HP!");
+                $('#battle-text-player').html("You feel strange forces increase your HP!");
                 break;
             case 2: player.att += player.magic;
-                $('#battle-text').html("You feel strange forces increase your Attack!");
+                $('#battle-text-player').html("You feel strange forces increase your Attack!");
                 break;
             case 3: player.arm += player.magic;
-                $('#battle-text').html("You feel strange forces increase your Armor!");
+                $('#battle-text-player').html("You feel strange forces increase your Armor!");
                 break;
             case 4: player.spd += player.magic;
-                $('#battle-text').html("You feel strange forces increase your Speed");
+                $('#battle-text-player').html("You feel strange forces increase your Speed");
                 break;
             case 5: player.magic += player.magic;
-                $('#battle-text').html("You feel strange forces increase your Magic!");
+                $('#battle-text-player').html("You feel strange forces increase your Magic!");
                 break;
             case 6: enemy.hp -= player.magic;
-                $('#battle-text').html("You feel strange forces attack the enemy for " + player.magic + " damage!");
+                $('#battle-text-player').html("You feel strange forces attack the enemy for " + player.magic + " damage!");
                 break;
             default:
                 alert("Something went terribly wrong.");
@@ -378,11 +379,11 @@ function battleLoop(enemy) {
         //DEBUG alert("RunChance is " + runChance + " and runSuccess is " + runSuccess);
 
         if (runChance >= runSuccess) {
-            $('#battle-text').html("You did it?");
+            $('#battle-text-player').html("You did it?");
             winBattle(enemy);
         }
         else{
-            $('#battle-text').html("You failed to run!");
+            $('#battle-text-player').html("You failed to run!");
             
             enemyTurn(enemy);
         }
@@ -426,8 +427,8 @@ function enemyTurn(enemy) {
     }
     
     if (bigAttack) {
-        $('#battle-text').html("The " + enemy.name + " lands a collossal blow for " + (enemy.att * 2 - player.arm) + " damage!");
-        player.hp -= (enemy.att * 2 - player.arm);
+        $('#battle-text-enemy').html("The " + enemy.name + " lands a collossal blow for " + Math.max(0, (enemy.att * 2 - player.arm)) + " damage!");
+        player.hp -= Math.max(0, (enemy.att * 2 - player.arm));
         bigAttack = false;
     }
     else {
@@ -436,17 +437,17 @@ function enemyTurn(enemy) {
         switch(enemyAction){
 
             case 1:
-                $('#battle-text').html("The " + enemy.name + "attacks for " + (enemy.att - player.arm) + " damage!");
+                $('#battle-text-enemy').html("The " + enemy.name + " attacks for " + Math.max(0, (enemy.att - player.arm)) + " damage!");
 
-                player.hp -= (enemy.att - player.arm);
+                player.hp -= Math.max(0, (enemy.att - player.arm));
                 break;
             case 2:
-                $('#battle-text').html("The " + enemy.name + " raises its guard!");
+                $('#battle-text-enemy').html("The " + enemy.name + " raises its guard!");
 
                 enemyDefend = true;
                 break;
             case 3:
-                $('#battle-text').html("The " + enemy.name + " is readying a huge blow!");
+                $('#battle-text-enemy').html("The " + enemy.name + " is readying a huge blow!");
 
                 bigAttack = true;
                 break;
@@ -463,7 +464,8 @@ function enemyTurn(enemy) {
 
 //Win Function
 function winBattle(enemy) {
-    $('#battle-text').hide();
+    $('#battle-text-player').hide();
+    $('#battle-text-enemy').hide();
     $('#player-stats').hide();
     $('#enemy-stats').hide();
     $('#battle-choices').hide();
@@ -489,7 +491,8 @@ function winBattle(enemy) {
 
 //Lose Function
 function loseBattle(enemy) {
-    $('#battle-text').hide();
+    $('#battle-text-player').hide();
+    $('#battle-text-enemy').hide();
     $('#player-stats').hide();
     $('#enemy-stats').hide();
     $('#battle-choices').hide();

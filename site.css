@@ -104,9 +104,14 @@ nav a{
     display: none;
 }
 
-#battle-text{
+#battle-text-player{
     display: none;
 }
+
+#battle-text-enemy{
+    display: none;
+}
+
 
 #player-stats{
     display: none;
