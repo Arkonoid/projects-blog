@@ -305,8 +305,14 @@ function battleLoop(enemy) {
             winBattle(enemy);
         }
 
-        enemyTurn(enemy);
+        $('#battle-choices').hide();
+        $('#battle-progress').show();
 
+        $('#battle-progress').click( ()=>{
+
+        enemyTurn(enemy);
+        
+        });
     });
 
     $('#option-block').click( ()=>{
@@ -459,6 +465,9 @@ function enemyTurn(enemy) {
     }
 
     showStats(enemy);
+
+    $('#battle-choices').show();
+    $('#battle-progress').hide();
 }
 
 //Win Function
