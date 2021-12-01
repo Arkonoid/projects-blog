@@ -1,9 +1,10 @@
 * {
     font-family: monospace;
+    margin: 0px;
 }
 
 body {
-    background-color: #dedede;
+    background-color: slategray;
 }
 
 h1 {
@@ -57,6 +58,13 @@ nav a{
 }
 
 /*Javascript Game*/
+.coding-header,
+.coding-nav,
+.coding-content
+{
+    background-color: slategray;
+}
+
 .game-box{
     display: flex;
     justify-content: center;
@@ -71,11 +79,32 @@ nav a{
 
     font-size: 1.3rem;
 
+    color: #fff;
+    background-color: #993333;
+    border: 2px solid #441111;
+    border-radius: 3px;
+
+    transition: all 0.15s;
+}
+
+#game-start:hover{
+    background-color: #441111;
+    color: #aa5555;
+}
+
+#game-start:active{
+    background-color: #441111;
+    color: #aa5555;
+    border: 2px solid #441111;
+    transform: scale(0.98);
+    box-shadow: darkred;
 }
 
 #choose-class{
     display: none;
     text-align: center;
+
+    font-size: 25px;
 }
 
 #choose-class button{
@@ -83,49 +112,58 @@ nav a{
     text-align: center;
 }
 
+.class-button{
+    width: 25vw;
+    height: 40px;
+
+    font-size: 20px;
+
+    background-color: #993333;
+    border: 2px solid #441111;
+
+    transition: all 0.15s;
+}
+
+.class-button:hover{
+    background-color: #441111;
+    color: #aa5555;
+}
+
+.class-button:active{
+    background-color: #441111;
+    color: #aa5555;
+    border: 2px solid #441111;
+    transform: scale(0.98);
+    box-shadow: darkred;
+}
+
+#mobile-button{
+    width: 25vw;
+    height: 40px;
+
+    font-size: 20px;
+
+    background-color: #993333;
+    border: 2px solid #441111;
+
+    transition: all 0.15s;
+}
+
 #stats{
     display: none;
     text-align: center;
 }
 
-#mobile-button{
-    display: none;
-}
-
-#adventure-choices{
-    display: none;
-}
-
-#adventure-text{
-    display: none;
-}
-
-#fight-button{
-    display: none;
-}
-
-#battle-text-player{
-    display: none;
-}
-
-#battle-text-enemy{
-    display: none;
-}
-
-
-#player-stats{
-    display: none;
-}
-
-#enemy-stats{
-    display: none;
-}
-
-#battle-choices{
-    display: none;
-}
-
-#battle-progress{
+#mobile-button,
+#adventure-choices,
+#adventure-text,
+#fight-button,
+#battle-text-player,
+#battle-text-enemy,
+#player-stats,
+#enemy-stats,
+#battle-progress
+{
     display: none;
 }
 
@@ -137,6 +175,157 @@ nav a{
 
 #reset-button{
     display: none;
+}
+
+#adventure-text{
+    font-size: 17px;
+    text-align: center;
+
+    margin-bottom: 10px;
+}
+
+#adventure-choices
+{
+    text-align: center;
+}
+
+.center-the-dang-button{
+    text-align: center;
+}
+
+#choice1,
+#choice2,
+#fight-button
+{
+    height: 30px;
+
+    font-size: 18px;
+
+    background-color: lightsteelblue;
+    border: solid 2px darkslategrey;
+}
+
+#choice1:active,
+#choice2:active,
+#fight-button:active
+{
+    background-color: #441111;
+    color: #aa5555;
+    border: 2px solid #441111;
+    transform: scale(0.98);
+    box-shadow: darkred;
+}
+
+#battle-text-player,
+#battle-text-enemy
+{
+    text-align: center;
+
+    font-size: 18px;
+    margin: 4px auto 4px auto;
+}
+
+#battle-text-player{
+    color: green;
+    background-color: #99ff99;
+}
+
+#battle-text-enemy{
+    color: darkred;
+    background-color: red;
+}
+
+#player-stats{
+    font-size: 18px;
+    text-align: center;
+
+    grid-area: pStats;
+}
+
+#enemy-stats{
+    font-size: 18px;
+    text-align: center;
+
+    grid-area: eStats;
+}
+
+#battle-stats{
+    display: grid;
+    grid-template-areas:
+        "pStats eStats";
+
+    background-color: lightsteelblue;
+
+    margin: 5px auto 15px auto;
+}
+
+.battle-choice{
+    background-color: lightskyblue;
+}
+
+.battle-choice:hover,
+.battle-choice:active
+{
+    animation-name: battleFlash;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes battleFlash {
+    0% {background-color: lightskyblue; color: black;}
+    50% {background-color: blue; color: white;}
+    100% {background-color: lightskyblue; color: black;}
+}
+
+#option-fight{
+    grid-area: fight;
+
+    
+    height: 40px;
+
+    font-size: 18px;
+}
+
+#option-block{
+    grid-area: block;
+
+    height: 40px;
+
+    font-size: 18px;
+}
+
+#option-magic{
+    grid-area: magic;
+
+    height: 40px;
+
+    font-size: 18px;
+}
+
+#option-run{
+    grid-area: run;
+
+    height: 40px;
+
+    font-size: 18px;
+}
+
+#battle-choices{
+    display: none;
+
+    grid-template-areas:
+        "fight block"
+        "magic run";
+}
+
+/*Game Debug*/
+.debug{
+    margin-top: 70px;
+    text-align: center;
+}
+
+.debug-button{
+    margin: 2px;
 }
 /*Loading animation*/
 

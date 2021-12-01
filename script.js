@@ -31,9 +31,9 @@ document.getElementById('game-start').addEventListener('click', ()=>{
     document.getElementById('class-choice').innerHTML = 
         "Choose Class<br>" +
         "------------<br>" +
-        "<button type='button' id='choice-warrior'>Warrior</button>" +
-        "<button type='button' id='choice-mage'>Mage</button>" +
-        "<button type='button' id='choice-rogue'>Rogue</button>";
+        "<button type='button' id='choice-warrior' class='class-button'>Warrior</button>" +
+        "<button type='button' id='choice-mage' class='class-button'>Mage</button>" +
+        "<button type='button' id='choice-rogue' class='class-button'>Rogue</button>";
 
     if($(window).width() < 700) {
         $('#choice-warrior').click( ()=> {
@@ -286,7 +286,7 @@ function battleLoop(enemy) {
     $('#battle-text-enemy').show();
     $('#player-stats').show();
     $('#enemy-stats').show();
-    $('#battle-choices').show();
+    document.getElementById("battle-choices").style.display = 'grid';
 
     showStats(enemy);
 
