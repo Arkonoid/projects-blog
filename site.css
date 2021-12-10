@@ -23,6 +23,11 @@ nav{
     justify-content: space-around;
     font-size: 18px;
 
+    background-color: lightgrey;
+    border: solid 4px darkgray;
+    border-radius: 2px;
+    padding: 5px;
+
     grid-area: nv;
 }
 
@@ -46,6 +51,47 @@ nav a{
     grid-area: ft;
 }
 
+.picture-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.picture-placeholder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 280px;
+    width: 340px;
+
+    font-size: large;
+
+    background-color: dimgray;
+    border: solid 4px lightgrey;
+}
+
+.music-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.music-placeholder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 300px;
+
+    font-size: large;
+
+    background-color: skyblue;
+    border: solid 4px aliceblue;
+    border-radius: 50px;
+}
+
 .grid {
     display: grid;
     gap: 20px;
@@ -56,6 +102,50 @@ nav a{
         "ft"
     ;
 }
+
+@media (min-width: 700px) {
+    
+    .grid {
+        grid-template-areas:
+            "hd hd"
+            "nv nv"
+            "ct ct"
+            "ft ft";
+    }
+
+    .main-content{
+        width: 700px;
+
+        margin: auto;
+    }
+
+    .picture-box{
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .music-box{
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+    }
+
+    nav{
+        justify-content: center;
+
+        background-color: lightgrey;
+        border: solid 4px darkgray;
+        border-radius: 2px;
+        padding: 5px;
+    }
+
+    nav a{
+        margin-left: 20px;
+        margin-right: 20px;;
+    }
+}
+    
 
 /*Javascript Game*/
 .coding-header,
@@ -326,29 +416,4 @@ nav a{
 
 .debug-button{
     margin: 2px;
-}
-/*Loading animation*/
-
-.center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-}
-
-.box{
-    width: 10px;
-    height: 10px;
-    background-color: darkblue;
-}
-
-@keyframes loading {
-    0% {}
-    25% {}
-    50% {}
-    75% {}
-    100% {}
 }
